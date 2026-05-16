@@ -8,7 +8,9 @@
     "build": "tsc",
     "test": "vitest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "weblm-driver": "github:RYN6666999/super-engine#v0.1.7"
+  },
   "devDependencies": {
     "typescript": "^5.0.0",
     "tsx": "^4.0.0",
