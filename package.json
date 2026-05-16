@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx src/index.ts",
+    "batch": "tsx src/batch.ts",
+    "bench": "tsx src/bench.ts",
     "build": "tsc",
     "test": "vitest"
   },

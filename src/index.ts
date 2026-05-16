@@ -20,15 +20,21 @@ const prompt = `請用繁體中文摘要以下內容，至少200字：\n\n${page
 
 // ── 3. Ask Gemini ─────────────────────────────────────────────────────────────
 console.log('Asking Gemini to summarize...');
+const headless = process.env['HEADLESS'] === '1';
 const driver = new GeminiWebDriver({
   providerUrl: 'https://gemini.google.com/app',
   profileDir,
   ...(executablePath ? { executablePath } : {}),
-  headless: false,
+  headless,
   firstTokenTimeoutMs: 30_000,
   stabilityTimeoutMs: 120_000,
-  stabilityIntervalMs: 1_500,
-  args: ['--no-first-run', '--disable-session-crashed-bubble'],
+  stabilityIntervalMs: 500,
+  args: [
+    '--no-first-run',
+    '--disable-session-crashed-bubble',
+    '--blink-settings=imagesEnabled=false',
+    '--disable-features=AutoplayPolicy',
+  ],
 });
 
 await driver.init();
