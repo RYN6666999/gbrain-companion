@@ -8,9 +8,7 @@
     "build": "tsc",
     "test": "vitest"
   },
-  "dependencies": {
-    "weblm-driver": "^0.1.6"
-  },
+  "dependencies": {},
   "devDependencies": {
     "typescript": "^5.0.0",
     "tsx": "^4.0.0",
