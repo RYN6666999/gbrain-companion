@@ -56,7 +56,11 @@ export async function putPage(slug: string, content: string): Promise<void> {
   if (!data.ok) throw new Error(`putPage failed: ${JSON.stringify(data)}`);
 }
 
-export async function addLink(from: string, to: string, linkType: string, context?: string): Promise<void> {
-  // gbrain HTTP API does not expose add_link — use MCP or gbrain CLI directly
-  throw new Error('addLink not available via HTTP API. Use gbrain CLI: gbrain add-link');
+export async function addLink(from: string, to: string, linkType = 'mentions', context?: string): Promise<void> {
+  const params = new URLSearchParams({ action: 'add_link', from, to, link_type: linkType, otp: otp() });
+  if (context) params.set('context', context);
+  const url = `${BASE_URL}/write?${params}`;
+  const res = await fetch(url);
+  const data = await res.json() as { ok: boolean };
+  if (!data.ok) throw new Error(`addLink failed: ${JSON.stringify(data)}`);
 }
