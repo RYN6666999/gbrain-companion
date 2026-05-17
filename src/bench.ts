@@ -18,9 +18,11 @@ import { GeminiWebDriver } from 'weblm-driver';
 const SLUG = process.env['SLUG'] ?? process.argv[2] ?? 'wiki/projects/super-engine';
 const N_RUNS = Number(process.env['N_RUNS'] ?? '3');
 const SKIP_HEADLESS = process.env['SKIP_HEADLESS'] === '1';
+const SKIP_CFT = process.env['SKIP_CFT'] === '1';
 
 const profileDir = process.env['GEMINI_PROFILE_DIR'];
-const executablePath = process.env['CHROME_EXECUTABLE'];
+const executablePath = process.env['CHROME_EXECUTABLE'];        // Google Chrome (baseline)
+const cftExecutable = process.env['CFT_EXECUTABLE'];            // Chrome for Testing
 if (!profileDir) throw new Error('GEMINI_PROFILE_DIR is not set');
 
 const PROVIDER_URL = 'https://gemini.google.com/app';
@@ -45,11 +47,12 @@ interface ConfigResult {
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function makeDriver(opts: { headless: boolean; intervalMs: number }): GeminiWebDriver {
+function makeDriver(opts: { headless: boolean; intervalMs: number; exe?: string }): GeminiWebDriver {
+  const exe = opts.exe ?? executablePath;
   return new GeminiWebDriver({
     providerUrl: PROVIDER_URL,
     profileDir,
-    ...(executablePath ? { executablePath } : {}),
+    ...(exe ? { executablePath: exe } : {}),
     headless: opts.headless,
     firstTokenTimeoutMs: 30_000,
     stabilityTimeoutMs: 120_000,
@@ -89,7 +92,7 @@ function pad(s: string, n: number) { return s.padEnd(n); }
 async function runEphemeral(
   name: string,
   label: string,
-  opts: { headless: boolean; intervalMs: number },
+  opts: { headless: boolean; intervalMs: number; exe?: string },
   prompt: string,
   nRuns: number,
 ): Promise<ConfigResult> {
@@ -126,7 +129,7 @@ async function runEphemeral(
 async function runPersistent(
   name: string,
   label: string,
-  opts: { headless: boolean; intervalMs: number },
+  opts: { headless: boolean; intervalMs: number; exe?: string },
   prompt: string,
   nRuns: number,
 ): Promise<ConfigResult> {
@@ -229,9 +232,11 @@ function printReport(results: ConfigResult[], nRuns: number) {
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 console.log('gbrain-companion benchmark');
-console.log(`Slug:   ${SLUG}`);
-console.log(`N_RUNS: ${N_RUNS}`);
-console.log(`Headless skip: ${SKIP_HEADLESS}`);
+console.log(`Slug:         ${SLUG}`);
+console.log(`N_RUNS:       ${N_RUNS}`);
+console.log(`Skip headless:${SKIP_HEADLESS}`);
+console.log(`Skip CfT:     ${SKIP_CFT}`);
+console.log(`CFT_EXECUTABLE: ${cftExecutable ?? '(not set)'}`);
 
 // Fetch page content once
 console.log('\nFetching page from gbrain...');
@@ -255,6 +260,15 @@ results.push(await runPersistent('C-persistent', 'headless=false interval=500 pe
 if (!SKIP_HEADLESS) {
   results.push(await runEphemeral('D-headless', 'headless=true interval=500 ephemeral', { headless: true, intervalMs: 500 }, prompt, N_RUNS));
   results.push(await runPersistent('E-hl-persist', 'headless=true interval=500 persistent', { headless: true, intervalMs: 500 }, prompt, N_RUNS));
+}
+
+// Config F/G — Chrome for Testing (optional, requires CFT_EXECUTABLE)
+if (!SKIP_CFT && cftExecutable) {
+  console.log(`\nCFT_EXECUTABLE: ${cftExecutable}`);
+  results.push(await runEphemeral('F-cft', 'CfT headless=false interval=500 ephemeral', { headless: false, intervalMs: 500, exe: cftExecutable }, prompt, N_RUNS));
+  results.push(await runPersistent('G-cft-persist', 'CfT headless=false interval=500 persistent', { headless: false, intervalMs: 500, exe: cftExecutable }, prompt, N_RUNS));
+} else if (!SKIP_CFT && !cftExecutable) {
+  console.log('\n[CfT] CFT_EXECUTABLE not set — skipping F/G configs');
 }
 
 printReport(results, N_RUNS);

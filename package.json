@@ -7,6 +7,7 @@
     "dev": "tsx src/index.ts",
     "batch": "tsx src/batch.ts",
     "bench": "tsx src/bench.ts",
+    "bench-cft": "tsx src/bench-cft.ts",
     "build": "tsc",
     "test": "vitest"
   },
