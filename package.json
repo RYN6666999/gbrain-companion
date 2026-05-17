@@ -13,6 +13,8 @@
     "bench-phase2": "tsx src/bench-phase2.ts",
     "bench-phase3": "tsx src/bench-phase3.ts",
     "bench-phase4": "tsx src/bench-phase4.ts",
+    "daemon": "tsx src/daemon.ts",
+    "ask": "tsx src/client.ts",
     "build": "tsc",
     "test": "vitest"
   },
