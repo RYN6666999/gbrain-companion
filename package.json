@@ -10,6 +10,8 @@
     "bench-cft": "tsx src/bench-cft.ts",
     "bench-baseline": "tsx src/bench-baseline.ts",
     "bench-phase1": "tsx src/bench-phase1.ts",
+    "bench-phase2": "tsx src/bench-phase2.ts",
+    "bench-phase3": "tsx src/bench-phase3.ts",
     "build": "tsc",
     "test": "vitest"
   },
