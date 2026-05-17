@@ -9,6 +9,7 @@
     "bench": "tsx src/bench.ts",
     "bench-cft": "tsx src/bench-cft.ts",
     "bench-baseline": "tsx src/bench-baseline.ts",
+    "bench-phase1": "tsx src/bench-phase1.ts",
     "build": "tsc",
     "test": "vitest"
   },
