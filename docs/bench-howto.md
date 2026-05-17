@@ -38,12 +38,29 @@ N_RUNS=3 bun run bench
 N_RUNS=3 SKIP_HEADLESS=0 bun run bench 2>&1 | grep -A5 "headless"
 ```
 
-## Batch mode (production)
+## Daemon mode (production — preferred)
 
-Persistent driver for multiple slugs:
+Persistent driver with Unix socket IPC. Init once (~18s), then each call costs only gen time (~4-5s).
+
+```bash
+# Terminal 1: start daemon (stays alive)
+bun run daemon
+
+# Terminal 2: send prompts
+bun run ask "your question here"
+bun run ask --new-topic "reset context, new topic"
+```
+
+See `docs/decisions/2026-05-17-window-daemon.md` for architecture details.
+
+## Batch mode (multi-slug, no daemon required)
+
+Persistent driver for processing multiple slugs in one shot:
 
 ```bash
 bun run batch wiki/projects/super-engine wiki/projects/other-page
 # or from stdin:
 echo -e "wiki/projects/foo\nwiki/projects/bar" | bun run batch
 ```
+
+Use this when you have a fixed list of slugs to process offline. Use daemon mode for interactive or on-demand queries.

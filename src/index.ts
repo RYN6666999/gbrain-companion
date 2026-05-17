@@ -1,3 +1,16 @@
+/**
+ * index.ts — single-shot ephemeral ask (Phase 1 MVP demo)
+ *
+ * Reads a gbrain page, summarizes it with Gemini, prints the result.
+ * Initializes and shuts down Chrome on every invocation (~18s overhead).
+ *
+ * For interactive or on-demand use, prefer the daemon + client:
+ *   bun run daemon       # start once (~18s init)
+ *   bun run ask "..."    # each call ~4-5s
+ *
+ * Usage:
+ *   bun run dev [slug]
+ */
 import { getPage } from './gbrain-client.ts';
 import { GeminiWebDriver } from 'weblm-driver';
 
