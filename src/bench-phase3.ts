@@ -38,22 +38,12 @@ const WIKI_SLUG    = `wiki/projects/gbrain-companion/perf/${TODAY}-phase3-stabil
 
 if (!profileDir) throw new Error('GEMINI_PROFILE_DIR is not set');
 
-// Phase 2 args (same as bench-phase2.ts)
+// Phase 2 rejected (extra args caused crashes / no benefit) → revert to Phase 1 args
 const ARGS = [
   '--no-first-run',
   '--disable-session-crashed-bubble',
   '--blink-settings=imagesEnabled=false',
-  '--disable-background-networking',
-  '--disable-sync',
-  '--disable-translate',
-  '--disable-default-apps',
-  '--disable-extensions',
-  '--disable-component-update',
-  '--disable-notifications',
-  '--no-default-browser-check',
-  '--mute-audio',
-  '--disable-features=IsolateOrigins,site-per-process,AutomationControlled,AutoplayPolicy',
-  '--renderer-process-limit=1',
+  '--disable-features=AutoplayPolicy',
 ];
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
