@@ -1,13 +1,15 @@
 # gbrain-companion
 
-Personal AI pipeline connecting [gbrain](https://gbrain-production-18fa.up.railway.app) knowledge base with [super-engine](https://github.com/RYN6666999/super-engine) driven Gemini Web.
+Personal AI pipeline: [GBrain](https://github.com/RYN6666999/gbrain) knowledge base ↔ [super-engine](https://github.com/RYN6666999/super-engine) ↔ Gemini Web.
+
+> Part of the **LifeBuilder** digital twin stack. GBrain is the persistent brain; this companion routes AI conversations through different backends and auto-sediments them back.
 
 ## Why
 
-- Programmatically utilize paid Gemini Pro subscription (no API token cost)
-- Auto-sediment cross-AI conversations into gbrain
-- Self-maintaining knowledge base via scheduled orchestration
-- Independence from any single AI platform (Claude, Genspark, etc.)
+- Drive paid Gemini Pro subscription programmatically (no API token cost)
+- Auto-sediment cross-AI conversations into GBrain
+- Backend-agnostic: swap Claude, Genspark, Gemini without changing the pipeline
+- Self-maintaining: scheduled orchestration keeps the knowledge base current
 
 ## Architecture
 
@@ -24,7 +26,21 @@ Personal AI pipeline connecting [gbrain](https://gbrain-production-18fa.up.railw
                                │  (Playwright +  │
                                │   Gemini Web)   │
                                └─────────────────┘
+                                        │
+                               ┌────────▼────────┐
+                               │  GBrain (brain) │
+                               │  knowledge store│
+                               └─────────────────┘
 ```
+
+## Relationship to GBrain Harness
+
+| Repo | Role | Runtime |
+|------|------|---------|
+| [gbrain](https://github.com/RYN6666999/gbrain) (`harness/`) | Python LLM agent executor — tools, task execution, military-grade contracts | Python, Anthropic SDK |
+| **gbrain-companion** (this) | Gemini Web bridge — route queries through the browser, no API cost | TypeScript, Playwright |
+
+They share GBrain as the knowledge layer. Neither depends on the other at runtime.
 
 ## Usage
 
@@ -60,12 +76,12 @@ export CHROME_EXECUTABLE="/Applications/Google Chrome.app/Contents/MacOS/Google 
 
 Gen time is dominated by Gemini server response (~3.5-4s). Unix socket IPC overhead is <0.1s.
 
-## Implementation notes
+## Implementation Notes
 
 - Chrome window is minimized to Dock on init — CDP/Playwright interactions work on minimized windows
 - macOS prevents windows from extending below the screen bottom, so `windowState: 'minimized'` is the only reliable way to hide the window
-- Chrome Preferences are patched before launch (`exit_type: Normal`) to suppress session restore dialogs
-- Context is preserved across calls; `--new-topic` triggers `newConversation: true` → page reload
+- Chrome Preferences patched before launch (`exit_type: Normal`) to suppress session restore dialogs
+- Context preserved across calls; `--new-topic` triggers `newConversation: true` → page reload
 
 ## License
 
