@@ -1,26 +1,30 @@
-# LB-companion · 伴機
+# LB-companion
 
 > 靈機讀玉簡，遵律令，以煉丹之法鍛技。
 
-**LB-companion** 是 LifeBuilder 生態系的 AI 路由橋接層 — 將對話流量路由至不同 AI 後端（Gemini、Claude、Genspark），並自動沉澱回 LB-arcanum 知識庫。
+**LB-companion** 是 LifeBuilder 生態系的 Gemini Web 橋接工具。
+將 AI 對話路由至不同後端（Gemini / Claude / Genspark），並自動沉澱回 Arcanum 知識庫。
 
-## LifeBuilder 生態系
+---
 
-| 名號 | Repo | 說明 |
+## LifeBuilder 命名體系
+
+| 名號 | Repo | 定位 |
 |------|------|------|
-| **靈機 · Numen** | [LB-numen](https://github.com/RYN6666999/LB-numen) | Python LLM 執行層，讀玉簡、遵律令、行任務 |
-| **玉簡 · Arcanum** | [LB-arcanum](https://github.com/RYN6666999/LB-arcanum) | GBrain 知識庫，13 頁活文件常駐其中 |
-| **律令 · Nexus** | [LB-nexus](https://github.com/RYN6666999/LB-nexus) | 軍工級 contract 守門框架 |
-| **煉丹爐 · Athanor** | `skills/athanor.md` in LB-numen | 元技能：煉出 Azoth 標準技能 |
-| **大還丹 · Azoth** | `openspec/changes/azoth/` in LB-numen | 技能自循環標準 |
-| **伴機 · Companion** | [LB-companion](https://github.com/RYN6666999/LB-companion)（本 repo）| AI 路由橋接，Gemini Web 橋 |
+| **Numen · 靈機** | [LB-numen](https://github.com/RYN6666999/LB-numen) | LLM 推理瞬間（不可控，只能觀察） |
+| **Arcanum · 玉簡** | [LB-arcanum](https://github.com/RYN6666999/LB-arcanum) | gbrain 私密記憶層（被授權者才能讀寫） |
+| **Nexus · 律令** | [LB-nexus](https://github.com/RYN6666999/LB-nexus) | SPEC→guard→contract→IMPL 不可繞過的守門 |
+| **Athanor · 煉丹爐** | `skills/athanor.md` in LB-numen | 元技能：把需求煉成符合標準的新技能 |
+| **Azoth · 大還丹** | `openspec/changes/azoth/` in LB-numen | 技能成品的最低標準（合格證） |
+
+LB-companion 不是命名體系的核心組件 — 它是一個使用 Arcanum 作記憶層的橋接工具。
 
 ---
 
 ## Why
 
 - Drive paid Gemini Pro subscription programmatically (no API token cost)
-- Auto-sediment cross-AI conversations into GBrain
+- Auto-sediment cross-AI conversations into Arcanum (LB-arcanum)
 - Backend-agnostic: swap Claude, Genspark, Gemini without changing the pipeline
 - Self-maintaining: scheduled orchestration keeps the knowledge base current
 
@@ -42,7 +46,7 @@
                                         │
                                ┌────────▼────────┐
                                │  LB-arcanum     │
-                               │  knowledge store│
+                               │  (Arcanum 知識庫)|
                                └─────────────────┘
 ```
 
