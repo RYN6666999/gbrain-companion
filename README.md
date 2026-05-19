@@ -1,8 +1,21 @@
-# gbrain-companion
+# LB-companion · 伴機
 
-Personal AI pipeline: [GBrain](https://github.com/RYN6666999/gbrain) knowledge base ↔ [super-engine](https://github.com/RYN6666999/super-engine) ↔ Gemini Web.
+> 靈機讀玉簡，遵律令，以煉丹之法鍛技。
 
-> Part of the **LifeBuilder** digital twin stack. GBrain is the persistent brain; this companion routes AI conversations through different backends and auto-sediments them back.
+**LB-companion** 是 LifeBuilder 生態系的 AI 路由橋接層 — 將對話流量路由至不同 AI 後端（Gemini、Claude、Genspark），並自動沉澱回 LB-arcanum 知識庫。
+
+## LifeBuilder 生態系
+
+| 名號 | Repo | 說明 |
+|------|------|------|
+| **靈機 · Numen** | [LB-numen](https://github.com/RYN6666999/LB-numen) | Python LLM 執行層，讀玉簡、遵律令、行任務 |
+| **玉簡 · Arcanum** | [LB-arcanum](https://github.com/RYN6666999/LB-arcanum) | GBrain 知識庫，13 頁活文件常駐其中 |
+| **律令 · Nexus** | [LB-nexus](https://github.com/RYN6666999/LB-nexus) | 軍工級 contract 守門框架 |
+| **煉丹爐 · Athanor** | `skills/athanor.md` in LB-numen | 元技能：煉出 Azoth 標準技能 |
+| **大還丹 · Azoth** | `openspec/changes/azoth/` in LB-numen | 技能自循環標準 |
+| **伴機 · Companion** | [LB-companion](https://github.com/RYN6666999/LB-companion)（本 repo）| AI 路由橋接，Gemini Web 橋 |
+
+---
 
 ## Why
 
@@ -28,19 +41,10 @@ Personal AI pipeline: [GBrain](https://github.com/RYN6666999/gbrain) knowledge b
                                └─────────────────┘
                                         │
                                ┌────────▼────────┐
-                               │  GBrain (brain) │
+                               │  LB-arcanum     │
                                │  knowledge store│
                                └─────────────────┘
 ```
-
-## Relationship to GBrain Harness
-
-| Repo | Role | Runtime |
-|------|------|---------|
-| [gbrain](https://github.com/RYN6666999/gbrain) (`harness/`) | Python LLM agent executor — tools, task execution, military-grade contracts | Python, Anthropic SDK |
-| **gbrain-companion** (this) | Gemini Web bridge — route queries through the browser, no API cost | TypeScript, Playwright |
-
-They share GBrain as the knowledge layer. Neither depends on the other at runtime.
 
 ## Usage
 
